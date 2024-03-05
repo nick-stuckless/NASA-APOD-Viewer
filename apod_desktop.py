@@ -15,6 +15,8 @@ from datetime import date
 import os
 import image_lib
 import inspect
+import sys
+import datetime
 
 # Global variables
 image_cache_dir = None  # Full path of image cache directory
@@ -53,8 +55,30 @@ def get_apod_date():
         date: APOD date
     """
     # TODO: Complete function body
-    apod_date = date.fromisoformat('2022-12-25')
-    return apod_date
+    if len(sys.argv) < 2:
+        print("Error: Missing search term.")
+        sys.exit()
+
+    date1 = str(sys.argv[1])
+
+    try:
+           date_time = datetime.date.fromisoformat(date1)
+    except ValueError:
+            print("Incorrect data format, should be YYYY-MM-DD")
+
+    current_date = datetime.date.today()
+    nasa_date = datetime.date.fromisoformat("1995-06-16")
+    nasa_object = nasa_date.strftime("%Y-%m-%d")
+
+    if date_time > current_date:
+         print("Error: Future date given. Please insert a relevant date.")
+    elif date_time < nasa_object:
+        pass
+
+    
+    
+    #apod_date = date.fromisoformat({date1})
+    return date1 #apod_date
 
 def get_script_dir():
     """Determines the path of the directory in which this script resides
