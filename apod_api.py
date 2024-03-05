@@ -16,6 +16,7 @@ def get_apod_info(apod_date):
         dict: Dictionary of APOD info, if successful. None if unsuccessful
     """
     #API KEY: ws7sgipbUHySWua9H2HscjRAUnkJ4nRoSJonrt3n
+    #HTTP LINK: GET https://api.nasa.gov/planetary/apod
 
     return   
 
