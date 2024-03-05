@@ -9,13 +9,14 @@ def main():
 def get_apod_info(apod_date):
     """Gets information from the NASA API for the Astronomy 
     Picture of the Day (APOD) from a specified date.
-
     Args:
         apod_date (date): APOD date (Can also be a string formatted as YYYY-MM-DD)
 
     Returns:
         dict: Dictionary of APOD info, if successful. None if unsuccessful
     """
+    #API KEY: ws7sgipbUHySWua9H2HscjRAUnkJ4nRoSJonrt3n
+
     return   
 
 def get_apod_image_url(apod_info_dict):

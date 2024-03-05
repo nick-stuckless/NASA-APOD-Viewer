@@ -75,11 +75,7 @@ def get_apod_date():
             sys.exit("Script aborted.")
     else:
         date_time = date.today()
-
-    
-    
-    #apod_date = date.fromisoformat({date1})
-    return date_time #apod_date
+    return date_time 
 
 def get_script_dir():
     """Determines the path of the directory in which this script resides
