@@ -1,4 +1,7 @@
 """ 
+if len(sys.argv) < 2:
+        print("Error: Missing search term.")
+        sys.exit()
 COMP 593 - Final Project
 
 Description: 
@@ -55,30 +58,28 @@ def get_apod_date():
         date: APOD date
     """
     # TODO: Complete function body
-    if len(sys.argv) < 2:
-        print("Error: Missing search term.")
-        sys.exit()
+    num_params = len(sys.argv) - 1
+    if num_params >= 1:
+        try:
+            date_time = datetime.date.fromisoformat(sys.argv[1])
+        except ValueError as err:
+                print(f"Error: Invalid date format; {err}")
+                sys.exit('Script aborted.')
 
-    date1 = str(sys.argv[1])
-
-    try:
-           date_time = datetime.date.fromisoformat(date1)
-    except ValueError:
-            print("Incorrect data format, should be YYYY-MM-DD")
-
-    current_date = datetime.date.today()
-    nasa_date = datetime.date.fromisoformat("1995-06-16")
-    nasa_object = nasa_date.strftime("%Y-%m-%d")
-
-    if date_time > current_date:
-         print("Error: Future date given. Please insert a relevant date.")
-    elif date_time < nasa_object:
-        pass
+        current_date = datetime.date.today()
+        nasa_date = datetime.date.fromisoformat("1995-06-16")
+        if date_time < nasa_date:
+            print(f"Error: Date too far in the past. First APOD was on {nasa_date.isoformat}")
+        elif date_time > current_date:
+            print("Error: APOD date cannot be in the future")
+            sys.exit("Script aborted.")
+    else:
+        date_time = date.today()
 
     
     
     #apod_date = date.fromisoformat({date1})
-    return date1 #apod_date
+    return date_time #apod_date
 
 def get_script_dir():
     """Determines the path of the directory in which this script resides
