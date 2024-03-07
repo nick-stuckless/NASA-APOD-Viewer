@@ -6,7 +6,8 @@ import requests
 apod_date = "2000-01-01"
 def main():
     # TODO: Add code to test the functions in this module
-    get_apod_info(apod_date)
+    apod_info_dict = get_apod_info(apod_date)
+    get_apod_image_url(apod_info_dict)
     return
 
 def get_apod_info(apod_date):
@@ -30,8 +31,8 @@ def get_apod_info(apod_date):
     
     if resp.status_code == requests.codes.ok:
         print("Success!")
-        dict = resp.json()
-        return print(dict)
+        apod_info_dict = resp.json()
+        return apod_info_dict
     else:
         print("Failure: ")
         print(f"{resp.status_code} {resp.reason} ({resp.text})")
@@ -49,6 +50,8 @@ def get_apod_image_url(apod_info_dict):
     Returns:
         str: APOD image URL
     """
+    image_url = apod_info_dict['hdurl']
+    print(image_url)
     return
 
 if __name__ == '__main__':
