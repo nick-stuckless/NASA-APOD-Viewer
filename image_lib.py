@@ -16,7 +16,8 @@ def download_image(image_url):
     Returns:
         bytes: Binary image data, if succcessful. None, if unsuccessful.
     """
-    # TODO: Complete function body
+    # TODO: Complete function body 
+    # check lab notes(AAI), i believe we have learned how to do this
     return
 
 def save_image_file(image_data, image_path):
