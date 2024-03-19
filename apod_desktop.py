@@ -1,4 +1,7 @@
 """ 
+if len(sys.argv) < 2:
+        print("Error: Missing search term.")
+        sys.exit()
 COMP 593 - Final Project
 
 Description: 
@@ -17,6 +20,7 @@ import image_lib
 import inspect
 import sys
 import datetime
+import sqlite3
 
 # Global variables
 image_cache_dir = None  # Full path of image cache directory
@@ -99,10 +103,36 @@ def init_apod_cache(parent_dir):
     global image_cache_dir
     global image_cache_db
     # TODO: Determine the path of the image cache directory
-    # TODO: Create the image cache directory if it does not already exist
-    # TODO: Determine the path of image cache DB
-    # TODO: Create the DB if it does not already exist
+    image_cache_dir = os.path.join(parent_dir, 'apod_cache')
 
+    # TODO: Create the image cache directory if it does not already exist
+    if not os.path.exists(image_cache_dir):
+        os.makedirs(image_cache_dir)
+
+    # TODO: Determine the path of image cache DB
+    image_cache_db = os.path.join(image_cache_dir, 'apod_cache.db')
+
+
+    # TODO: Create the DB if it does not already exist
+    if not os.path.exists(image_cache_db):
+        con = sqlite3.connect(image_cache_db)
+        cur = con.cursor()
+        create_tbl_query = """
+             CREATE TABLE IF NOT EXISTS apod_images
+              (
+                 id           INTEGER PRIMARY KEY,
+                 title        TEXT NOT NULL,
+                 explanation  TEXT NOT NULL,
+                 file_path    TEXT NOT NULL,
+                 sha256       TEXT NOT NULL
+              
+              );
+           
+        """ 
+        cur.execute(create_tbl_query)
+        con.commit()
+        con.close
+        
 def add_apod_to_cache(apod_date):
     """Adds the APOD image from a specified date to the image cache.
      
