@@ -1,8 +1,16 @@
 '''
 Library of useful functions for working with images.
 '''
+import requests
+import os
+
 def main():
     # TODO: Add code to test the functions in this module
+    image_url = 'https://apod.nasa.gov/apod/image/0001/flammarion_halfcolor.gif'
+    image = download_image(image_url)
+    image_path = r"C:\Temp\test.gif"
+    save_image_file(image, image_path)
+
     return
 
 def download_image(image_url):
@@ -17,8 +25,14 @@ def download_image(image_url):
         bytes: Binary image data, if succcessful. None, if unsuccessful.
     """
     # TODO: Complete function body 
-    # check lab notes(AAI), i believe we have learned how to do this
-    return
+    url = image_url
+    resp = requests.get(url)
+    if resp.status_code == requests.codes.ok:
+        file_content = resp.content
+    else:
+        None
+    print(file_content)
+    return file_content
 
 def save_image_file(image_data, image_path):
     """Saves image data as a file on disk.
@@ -33,6 +47,8 @@ def save_image_file(image_data, image_path):
         bytes: True, if succcessful. False, if unsuccessful
     """
     # TODO: Complete function body
+    with open(f'{image_path}', 'wb') as file:
+        file.write(image_data)
     return
 
 def set_desktop_background_image(image_path):
@@ -45,6 +61,7 @@ def set_desktop_background_image(image_path):
         bytes: True, if succcessful. False, if unsuccessful        
     """
     # TODO: Complete function body
+    
     return
 
 def scale_image(image_size, max_size=(800, 600)):
