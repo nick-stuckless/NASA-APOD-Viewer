@@ -3,6 +3,7 @@ Library of useful functions for working with images.
 '''
 import requests
 import os
+import apod_api
 
 def main():
     # TODO: Add code to test the functions in this module
@@ -31,7 +32,6 @@ def download_image(image_url):
         file_content = resp.content
     else:
         None
-    print(file_content)
     return file_content
 
 def save_image_file(image_data, image_path):
@@ -61,7 +61,7 @@ def set_desktop_background_image(image_path):
         bytes: True, if succcessful. False, if unsuccessful        
     """
     # TODO: Complete function body
-    
+
     return
 
 def scale_image(image_size, max_size=(800, 600)):
