@@ -21,6 +21,7 @@ import inspect
 import sys
 import datetime
 import sqlite3
+import apod_api
 
 # Global variables
 image_cache_dir = None  # Full path of image cache directory
@@ -149,8 +150,15 @@ def add_apod_to_cache(apod_date):
     """
     print("APOD date:", apod_date.isoformat())
     # TODO: Download the APOD information from the NASA API
+    apod_data = apod_api.get_apod_info(apod_date)
+    
     # TODO: Download the APOD image
+    image_url = apod_data['hdurl']
+    apod_image = image_lib.download_image(image_url)
+   
     # TODO: Check whether the APOD already exists in the image cache
+     
+   
     # TODO: Save the APOD file to the image cache directory
     # TODO: Add the APOD information to the DB
     return 0
