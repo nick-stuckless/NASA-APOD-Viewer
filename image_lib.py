@@ -4,6 +4,7 @@ Library of useful functions for working with images.
 import requests
 import os
 import apod_api
+import subprocess
 
 def main():
     # TODO: Add code to test the functions in this module

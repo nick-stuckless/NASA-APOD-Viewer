@@ -1,7 +1,4 @@
 """ 
-if len(sys.argv) < 2:
-        print("Error: Missing search term.")
-        sys.exit()
 COMP 593 - Final Project
 
 Description: 
