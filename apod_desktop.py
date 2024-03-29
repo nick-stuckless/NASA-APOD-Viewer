@@ -157,10 +157,12 @@ def add_apod_to_cache(apod_date):
     apod_image = image_lib.download_image(image_url)
    
     # TODO: Check whether the APOD already exists in the image cache
-     
-   
+    
     # TODO: Save the APOD file to the image cache directory
+    image_lib.save_image_file(apod_image)
+
     # TODO: Add the APOD information to the DB
+        
     return 0
 
 def add_apod_to_db(title, explanation, file_path, sha256):
