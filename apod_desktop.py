@@ -22,6 +22,7 @@ import sys
 import datetime
 import sqlite3
 import apod_api
+import hashlib
 
 # Global variables
 image_cache_dir = None  # Full path of image cache directory
@@ -105,14 +106,15 @@ def init_apod_cache(parent_dir):
     global image_cache_db
     # TODO: Determine the path of the image cache directory
     image_cache_dir = os.path.join(parent_dir, 'apod_cache')
-
+    print(f"Image Cache Directory: {image_cache_dir} ")
     # TODO: Create the image cache directory if it does not already exist
     if not os.path.exists(image_cache_dir):
         os.makedirs(image_cache_dir)
+        
 
     # TODO: Determine the path of image cache DB
     image_cache_db = os.path.join(image_cache_dir, 'apod_cache.db')
-
+    print(f"Image Cache Database: {image_cache_db}")
 
     # TODO: Create the DB if it does not already exist
     if not os.path.exists(image_cache_db):
@@ -151,19 +153,22 @@ def add_apod_to_cache(apod_date):
     print("APOD date:", apod_date.isoformat())
     # TODO: Download the APOD information from the NASA API
     apod_data = apod_api.get_apod_info(apod_date)
+
     
     # TODO: Download the APOD image
-    image_url = apod_data['hdurl']
+    image_url = apod_api.get_apod_image_url(apod_data)
     apod_image = image_lib.download_image(image_url)
    
     # TODO: Check whether the APOD already exists in the image cache
-    
+
+
 
     # TODO: Save the APOD file to the image cache directory
+
     image_lib.save_image_file(apod_image, image_cache_dir)
 
     # TODO: Add the APOD information to the DB
-    add_apod_to_db(apod_data["title"],apod_data["explanation"],apod_data["file_path"],apod_data["sha256"])
+    add_apod_to_db(apod_data["title"],apod_data["explanation"],image_cache_dir,hashvalue)
     return 0
 
 def add_apod_to_db(title, explanation, file_path, sha256):

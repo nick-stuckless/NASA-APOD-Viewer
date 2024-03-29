@@ -50,9 +50,14 @@ def get_apod_image_url(apod_info_dict):
     Returns:
         str: APOD image URL
     """
-    image_url = apod_info_dict['hdurl']
-    print(image_url)
-    return
+    
+    if apod_info_dict["media_type"] == 'image':
+        url = apod_info_dict["hdurl"]
+    
+    elif apod_info_dict["media_type"] == 'video':
+        url = apod_info_dict["thumbnail_url"]
+    
+    return url
 
 if __name__ == '__main__':
     main()
