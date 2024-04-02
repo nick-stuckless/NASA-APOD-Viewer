@@ -8,10 +8,10 @@ import subprocess
 
 def main():
     # TODO: Add code to test the functions in this module
-    image_url = 'https://apod.nasa.gov/apod/image/0001/flammarion_halfcolor.gif'
-    image = download_image(image_url)
-    image_path = r"C:\Temp\test.gif"
-    save_image_file(image, image_path)
+    #image_url = 'https://apod.nasa.gov/apod/image/0001/flammarion_halfcolor.gif'
+    #image = download_image(image_url)
+    #image_path = "C:/Temp/test.gif"
+    #save_image_file(image, image_path)
 
     return
 

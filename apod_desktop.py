@@ -201,8 +201,8 @@ def add_apod_to_db(title, explanation, file_path, sha256):
             file_path,
             sha256)
     cur.execute(add_image_query, data)
-    cur.execute('SELECT id FROM apod_images')
-    data = cur.fetchone(max())
+    #cur.execute('SELECT id FROM apod_images')
+    #data = cur.fetchone(max()) to do
     con.commit()
     con.close()
     return data #0
@@ -261,11 +261,19 @@ def get_apod_info(image_id):
     """
     # TODO: Query DB for image info
     # TODO: Put information into a dictionary
-    apod_info = {
-        #'title': , 
-        #'explanation': ,
-        'file_path': 'TBD',
-    }
+    
+    con = sqlite3.connect(image_cache_db)
+    cur = con.cursor()
+    
+    apod_info = f"""
+        SELECT title, explanation, file_path FROM apod_images
+        WHERE id = '{image_id}';
+    """
+    cur.execute(apod_info)
+
+    #todo build dict
+    
+    print(apod_info)
     return apod_info
 
 def get_all_apod_titles():
