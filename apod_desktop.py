@@ -23,6 +23,7 @@ import datetime
 import sqlite3
 import apod_api
 import hashlib
+import re
 
 # Global variables
 image_cache_dir = None  # Full path of image cache directory
@@ -160,15 +161,16 @@ def add_apod_to_cache(apod_date):
     apod_image = image_lib.download_image(image_url)
    
     # TODO: Check whether the APOD already exists in the image cache
-
-
+    img_hash = hashlib.sha256(apod_image).hexdigest()
+    get_apod_id_from_db(img_hash)
 
     # TODO: Save the APOD file to the image cache directory
-
-    image_lib.save_image_file(apod_image, image_cache_dir)
+    
+    path = determine_apod_file_path(apod_data["title"], image_url)
+    image_lib.save_image_file(apod_image, path)
 
     # TODO: Add the APOD information to the DB
-    add_apod_to_db(apod_data["title"],apod_data["explanation"],image_cache_dir,hashvalue)
+    add_apod_to_db(apod_data["title"],apod_data["explanation"],image_cache_dir,img_hash)
     return 0
 
 def add_apod_to_db(title, explanation, file_path, sha256):
@@ -201,11 +203,13 @@ def add_apod_to_db(title, explanation, file_path, sha256):
             file_path,
             sha256)
     cur.execute(add_image_query, data)
-    #cur.execute('SELECT id FROM apod_images')
-    #data = cur.fetchone(max()) to do
+    con.commit()
+    id_query = f"""SELECT id FROM apod_images WHERE title="{title}";"""
+    cur.execute(id_query)
+    data = cur.fetchall()
     con.commit()
     con.close()
-    return data #0
+    return data
 
 def get_apod_id_from_db(image_sha256):
     """Gets the record ID of the APOD in the cache having a specified SHA-256 hash value
@@ -219,6 +223,18 @@ def get_apod_id_from_db(image_sha256):
         int: Record ID of the APOD in the image cache DB, if it exists. Zero, if it does not.
     """
     # TODO: Complete function body
+    con = sqlite3.connect(image_cache_db)
+    cur = con.cursor()
+    try:
+        id_query = f"""
+            SELECT id, sha256 FROM apod_images WHERE sha256 = {image_sha256}
+
+        """
+        cur.execute(id_query)
+        con.commit()
+        con.close()
+    except:
+        return
     return 0
 
 def determine_apod_file_path(image_title, image_url):
@@ -247,7 +263,10 @@ def determine_apod_file_path(image_title, image_url):
         str: Full path at which the APOD image file must be saved in the image cache directory
     """
     # TODO: Complete function body
-    return
+    image_ext = image_url.split(".")[-1] 
+    img_file_name = re.sub(r"\W+", "", re.sub(" ", "_", image_title.strip()))
+    file_path = os.path.join(image_cache_dir, img_file_name + "." + image_ext)
+    return file_path
 
 def get_apod_info(image_id):
     """Gets the title, explanation, and full path of the APOD having a specified
@@ -272,8 +291,8 @@ def get_apod_info(image_id):
     cur.execute(apod_info)
 
     #todo build dict
-    
-    print(apod_info)
+
+
     return apod_info
 
 def get_all_apod_titles():
