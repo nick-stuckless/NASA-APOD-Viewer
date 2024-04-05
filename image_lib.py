@@ -5,6 +5,7 @@ import requests
 import os
 import apod_api
 import subprocess
+import ctypes
 
 def main():
     # TODO: Add code to test the functions in this module
@@ -26,13 +27,15 @@ def download_image(image_url):
     Returns:
         bytes: Binary image data, if succcessful. None, if unsuccessful.
     """
-    # TODO: Complete function body 
     url = image_url
     resp = requests.get(url)
+    print(f'Downloading image from {url}...', end='')
     if resp.status_code == requests.codes.ok:
         file_content = resp.content
+        print('Success')
     else:
-        None
+        print('Failure')
+        print(f'Response code: {resp.status_code} ({resp.reason})')     
     return file_content
 
 def save_image_file(image_data, image_path):
@@ -47,10 +50,15 @@ def save_image_file(image_data, image_path):
     Returns:
         bytes: True, if succcessful. False, if unsuccessful
     """
-    # TODO: Complete function body
-    with open(f'{image_path}', 'wb') as file:
-        file.write(image_data)
-    return
+    try:
+        print(f"Saving image file as {image_path}...", end='')
+        with open(image_path, 'wb') as file:
+            file.write(image_data)
+        print("Success")
+        return True
+    except:
+        print("Failure")
+        return False
 
 def set_desktop_background_image(image_path):
     """Sets the desktop background image to a specific image.
@@ -62,8 +70,18 @@ def set_desktop_background_image(image_path):
         bytes: True, if succcessful. False, if unsuccessful        
     """
     # TODO: Complete function body
-
-    return
+    print(f"Setting desktop to {image_path}...", end='')
+    SPI_SETDESKWALLPAPER = 20
+    try:
+        if ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, image_path, 3):
+            print("success")
+            return True
+        else:
+            print("failure")
+    except:
+        print("failure")
+    return False
+    
 
 def scale_image(image_size, max_size=(800, 600)):
     """Calculates the dimensions of an image scaled to a maximum width
