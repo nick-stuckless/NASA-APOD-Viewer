@@ -17,6 +17,7 @@
     Final project complete, let the beers flow!
  """
 from tkinter import Tk, ttk, messagebox, PhotoImage
+from tkcalendar import DateEntry
 import inspect
 import os
 import apod_desktop
@@ -89,6 +90,22 @@ img_cmbox.bind("<<ComboboxSelected>>")
 
 selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop")
 selectimg_but.grid(row=0, column=2, padx=5, pady=5, sticky="E")
+
+
+selectdt_lbl = ttk.Label(api_input, text="Select Date:")
+selectdt_lbl.grid(row=0, column=0, padx=5, pady=5)
+
+entry_selectdt = DateEntry(api_input, date_pattern="YYYY-MM-DD", state="readonly", mindate=date.fromisoformat("1996-05-16"), maxdate=date.today())
+entry_selectdt.grid(row=0, column=1, padx=5, pady=5)
+
+downloadimg_but = ttk.Button(api_input, text="Download Image")
+downloadimg_but.grid(row=0, column=2, padx=5, pady=5)
+
+
+
+
+
+
 
 
 root.mainloop()
