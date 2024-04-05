@@ -163,6 +163,7 @@ def add_apod_to_cache(apod_date):
     # TODO: Check whether the APOD already exists in the image cache
     img_hash = hashlib.sha256(apod_image).hexdigest()
     get_apod_id_from_db(img_hash)
+    #todo check if image exists already
 
     # TODO: Save the APOD file to the image cache directory
     
@@ -227,7 +228,7 @@ def get_apod_id_from_db(image_sha256):
     cur = con.cursor()
     try:
         id_query = f"""
-            SELECT id, sha256 FROM apod_images WHERE sha256 = {image_sha256}
+            SELECT id, sha256 FROM apod_images WHERE sha256 = {image_sha256};
 
         """
         cur.execute(id_query)
@@ -284,16 +285,19 @@ def get_apod_info(image_id):
     con = sqlite3.connect(image_cache_db)
     cur = con.cursor()
     
-    apod_info = f"""
+    apod_info_query = f"""
         SELECT title, explanation, file_path FROM apod_images
         WHERE id = '{image_id}';
     """
-    cur.execute(apod_info)
-
-    #todo build dict
-
-
-    return apod_info
+    cur.execute(apod_info_query)
+    data = cur.fetchone()
+    con.close()
+    apod_dict = {
+        'title': data[0],
+        'explanation': data[1],
+        'file_path': data[3], 
+    }
+    return apod_dict
 
 def get_all_apod_titles():
     """Gets a list of the titles of all APODs in the image cache
@@ -303,7 +307,17 @@ def get_all_apod_titles():
     """
     # TODO: Complete function body
     # NOTE: This function is only needed to support the APOD viewer GUI
-    return
+    con = sqlite3.connect(image_cache_db)
+    cur = con.cursor()
+    title_query = """
+        SELECT title from apod_images;
+    """
+
+    cur.execute(title_query)
+    titles = cur.fetchall()
+    con.close()
+    
+    return [title[0] for title in titles]
 
 if __name__ == '__main__':
     main()
