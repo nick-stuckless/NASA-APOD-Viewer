@@ -1,5 +1,27 @@
 '''
 Library of useful functions for working with images.
+  /|  |\            /|  |\
+ / |  | \          / |  | \
+ | |  | |          | |  | |
+ \  \/  /  __  __  \  \/  /
+  \    /  / /  \ \  \    /
+   \  /   \ \__/ /   \  /
+   \  /   /      \   \  /
+  _ \ \__/ O    O \__/ / _
+  \\ \___          ___/ //
+_  \\___/  ______  \___//  _   <--- He will pinch you if  
+\\  ----(          )----  //        you give a bad grade.
+ \\_____( ________ )_____//
+  ~-----(          )-----~ _
+   _____( ________ )_____  \\
+  /,----(          )----  _//
+ //     (  ______  )     /  \
+ ~       \        /      \  /
+          \  __  /       / /
+           \    /       / /
+            \   \      / /
+             \   ~----~ /
+              \________/
 '''
 import requests
 import os
@@ -69,7 +91,6 @@ def set_desktop_background_image(image_path):
     Returns:
         bytes: True, if succcessful. False, if unsuccessful        
     """
-    # TODO: Complete function body
     print(f"Setting desktop to {image_path}...", end='')
     SPI_SETDESKWALLPAPER = 20
     try:

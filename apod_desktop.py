@@ -1,7 +1,4 @@
 """ 
-if len(sys.argv) < 2:
-        print("Error: Missing search term.")
-        sys.exit()
 COMP 593 - Final Project
 
 Description: 
@@ -13,6 +10,17 @@ Usage:
 
 Parameters:
   apod_date = APOD date (format: YYYY-MM-DD)
+           ."`".
+       .-./ _=_ \.-.
+      {  (,(oYo),) }}
+      {{ |   "   |} }
+      { { \(---)/  }}
+      {{  }'-=-'{ } }
+      { { }._:_.{  }}
+      {{  } -:- { } }
+      {_{ }`===`{  _}
+     ((((\)     (/))))
+        RIP HARAMBE
 """
 from datetime import date
 import os

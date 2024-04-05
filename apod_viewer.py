@@ -1,3 +1,21 @@
+    """
+    GUI for NASA APOD program.
+
+ .   *   ..  . *  *       
+*  * @()Ooc()*   o  .
+    (Q@*0CG*O()  ___
+   |\_________/|/ _ \
+   |  |  |  |  | / | |
+   |  |  |  |  | | | |
+   |  |  |  |  | | | |
+   |  |  |  |  | | | |
+   |  |  |  |  | | | |
+   |  |  |  |  | \_| |
+   |  |  |  |  |\___/
+   |\_|__|__|_/|
+    \_________/
+    Final project complete, let the beers flow!
+    """
 from tkinter import Tk, ttk, messagebox
 import inspect
 import os
