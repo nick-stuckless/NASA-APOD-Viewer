@@ -32,12 +32,26 @@ script_dir = os.path.dirname(script_path)
 # Initialize the image cache
 apod_desktop.init_apod_cache(script_dir)
 
+
+# Event handlers
+def resize(event):
+    global win_wid, win_hei
+    if event.widget.winfo_class() == "Toplevel":
+        if (win_wid != event.width) and (win_hei != event.height):
+            win_wid = event.width
+            win_hei = event.height
+    return
+
+win_wid = 0
+win_hei = 0
+
+
 # TODO: Create the GUI
 root = Tk()
-root.geometry('600x400')
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 root.title("Astronomy Picture of the Day Viewer")
+root.bind("<Configure>", resize)
 
 # Setting Nasa Icon
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('ApodViewer')
@@ -65,6 +79,7 @@ api_input.columnconfigure(0, weight=0)
 api_input.columnconfigure(1,weight=1)
 api_input.columnconfigure(1, weight=0)
 api_input.rowconfigure(0, weight=1)
+
 
 #Populating all the frames with Widgets
 
