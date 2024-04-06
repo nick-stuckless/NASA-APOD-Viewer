@@ -211,13 +211,21 @@ def add_apod_to_db(title, explanation, file_path, sha256):
             explanation,
             file_path,
             sha256)
+    
+
     cur.execute(add_image_query, data)
     con.commit()
-    id_query = f"""SELECT id FROM apod_images WHERE title="{title}";"""
+
+
+
+    id_query = f"""
+    SELECT id FROM apod_images 
+    WHERE title = "{title}"
+    """
     cur.execute(id_query)
-    data = cur.fetchall()
-    con.commit()
+    data = cur.fetchone()[0]
     con.close()
+
     return data
 
 def get_apod_id_from_db(image_sha256):
@@ -234,16 +242,23 @@ def get_apod_id_from_db(image_sha256):
     # TODO: Complete function body
     con = sqlite3.connect(image_cache_db)
     cur = con.cursor()
-    try:
-        id_query = f"""
-            SELECT id, sha256 FROM apod_images WHERE sha256 = {image_sha256};
+    
+    id_query = """
+            SELECT id, sha256 FROM apod_images
 
-        """
-        cur.execute(id_query)
-        con.commit()
-        con.close()
-    except:
-        return
+    """
+
+    cur.execute(id_query)
+    entry = cur.fetchall()
+    con.close()
+
+
+    for ent in entry:
+        if ent[1] == image_sha256:
+            return ent[0]
+        
+
+
     return 0
 
 def determine_apod_file_path(image_title, image_url):
@@ -318,7 +333,7 @@ def get_all_apod_titles():
     con = sqlite3.connect(image_cache_db)
     cur = con.cursor()
     title_query = """
-        SELECT title from apod_images;
+        SELECT title FROM apod_images;
     """
 
     cur.execute(title_query)

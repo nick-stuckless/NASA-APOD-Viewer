@@ -54,6 +54,8 @@ def apod_handl(event):
     info_select = apod_desktop.get_apod_info(apod_select)
     img_path = info_select['file_path']
 
+    #configuring the apod explanation
+    middle_frm.configure(text=info_select['explanation'],  wraplength=middle_frm.winfo_width(), justify="left")
 
 
 
