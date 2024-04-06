@@ -77,6 +77,15 @@ def desk_bg_set():
     image_lib.set_desktop_background_image(img_path)
     return
 
+def img_download_handl():
+    entry_dt = entry_selectdt.get_date()
+
+    apod_desktop.add_apod_to_cache(entry_dt)
+
+    img_cmbox.configure(values=apod_desktop.get_all_apod_titles())
+
+    return
+
 
 
 # TODO: Create the GUI
@@ -146,7 +155,7 @@ selectdt_lbl.grid(row=0, column=0, padx=5, pady=5)
 entry_selectdt = DateEntry(api_input, date_pattern="YYYY-MM-DD", state="readonly", mindate=date.fromisoformat("1996-05-16"), maxdate=date.today())
 entry_selectdt.grid(row=0, column=1, padx=5, pady=5)
 
-downloadimg_but = ttk.Button(api_input, text="Download Image")
+downloadimg_but = ttk.Button(api_input, text="Download Image", command=img_download_handl)
 downloadimg_but.grid(row=0, column=2, padx=5, pady=5)
 
 
