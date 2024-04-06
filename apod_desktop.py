@@ -303,7 +303,7 @@ def get_apod_info(image_id):
     apod_dict = {
         'title': data[0],
         'explanation': data[1],
-        'file_path': data[3], 
+        'file_path': data[2], 
     }
     return apod_dict
 

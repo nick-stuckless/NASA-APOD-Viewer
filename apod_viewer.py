@@ -17,6 +17,7 @@
     Final project complete, let the beers flow!
  """
 from tkinter import Tk, ttk, messagebox, PhotoImage
+import tkinter as tk
 from tkcalendar import DateEntry
 import inspect
 import os
@@ -44,6 +45,38 @@ def resize(event):
 
 win_wid = 0
 win_hei = 0
+
+
+def apod_handl(event):
+    #getting apod info from database
+    global img_path
+    apod_select = img_cmbox.current() + 1
+    info_select = apod_desktop.get_apod_info(apod_select)
+    img_path = info_select['file_path']
+
+
+
+
+
+
+    #button state changing
+    if selectimg_but.instate(['disabled']):
+        selectimg_but.state(['!disabled'])
+
+    return
+
+
+def desk_bg_set():
+    if img_cmbox.current() == -1:
+        return
+
+    apod_info = img_cmbox.current() + 1
+
+    apod = apod_desktop.get_apod_info(apod_info)
+    img_path = apod['file_path']
+    image_lib.set_desktop_background_image(img_path)
+    return
+
 
 
 # TODO: Create the GUI
@@ -101,9 +134,9 @@ selectimg_lbl.grid(row=0, column=0, padx=5, pady=5, sticky="NSEw")
 img_cmbox = ttk.Combobox(bott_left_frm, state="readonly", values=apod_desktop.get_all_apod_titles())
 img_cmbox.grid(row=0, column=1, padx=5, pady=5, sticky="NSEW")
 img_cmbox.set("Select an Image")
-img_cmbox.bind("<<ComboboxSelected>>")
+img_cmbox.bind("<<ComboboxSelected>>", apod_handl)
 
-selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop")
+selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop", state=tk.DISABLED, command=desk_bg_set)
 selectimg_but.grid(row=0, column=2, padx=5, pady=5, sticky="E")
 
 
