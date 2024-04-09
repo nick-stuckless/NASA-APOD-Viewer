@@ -31,7 +31,7 @@ from datetime import date
 # Determine the path and parent directory of this script
 script_path = os.path.abspath(inspect.getframeinfo(inspect.currentframe()).filename)
 script_dir = os.path.dirname(script_path)
-images_dir = os.path.join(script_dir, 'apod_cache')
+
 
 # Initialize the image cache
 apod_desktop.init_apod_cache(script_dir)
@@ -58,15 +58,18 @@ def apod_handl(event):
     img_path = info_select['file_path']
 
     #configuring the apod explanation
-    mid_labl.configure(text=info_select['explanation'], wraplength=middle_frm.winfo_width(), justify="left")
+    
 
     global apod_img
     apod_img = Image.open(img_path)
     new_img = image_lib.scale_image(image_size=(apod_img.width, apod_img.height), max_size=(root.winfo_width(), top_frm.winfo_height()))
-    re_img = new_img.resize(new_img)
+    re_img = apod_img.resize(new_img)
 
-    img_labl.configure(image=re_img)
 
+    global final_img
+    final_img = ImageTk.PhotoImage(re_img)
+    img_labl.configure(image=final_img)
+    mid_labl.configure(text=info_select['explanation'], wraplength=middle_frm.winfo_width(), justify="left")
 
 
    

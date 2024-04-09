@@ -177,9 +177,10 @@ def add_apod_to_cache(apod_date):
     
     path = determine_apod_file_path(apod_data["title"], image_url)
     image_lib.save_image_file(apod_image, path)
-
+    #image file path
     # TODO: Add the APOD information to the DB
-    add_apod_to_db(apod_data["title"],apod_data["explanation"],image_cache_dir,img_hash)
+    img_path = os.path.join(image_cache_dir, path)
+    add_apod_to_db(apod_data["title"],apod_data["explanation"],img_path,img_hash)
     return 0
 
 def add_apod_to_db(title, explanation, file_path, sha256):
