@@ -18,6 +18,7 @@
  """
 from tkinter import Tk, ttk, messagebox, PhotoImage
 import tkinter as tk
+from PIL import ImageTk, Image
 from tkcalendar import DateEntry
 import inspect
 import os
@@ -57,15 +58,18 @@ def apod_handl(event):
     img_path = info_select['file_path']
 
     #configuring the apod explanation
-    middle_frm.configure(text=info_select['explanation'],  wraplength=middle_frm.winfo_width(), justify="left")
+    mid_labl.configure(text=info_select['explanation'], wraplength=middle_frm.winfo_width(), justify="left")
+
+    global apod_img
+    apod_img = Image.open(img_path)
+    new_img = image_lib.scale_image(image_size=(apod_img.width, apod_img.height), max_size=(root.winfo_width(), top_frm.winfo_height()))
+    re_img = new_img.resize(new_img)
+
+    img_labl.configure(image=re_img)
 
 
 
-
-
-    #button state changing
-    if selectimg_but.instate(['disabled']):
-        selectimg_but.state(['!disabled'])
+   
 
     return
 
@@ -79,6 +83,10 @@ def desk_bg_set():
     apod = apod_desktop.get_apod_info(apod_info)
     img_path = apod['file_path']
     image_lib.set_desktop_background_image(img_path)
+
+     #button state changing
+    if selectimg_but.instate(['disabled']):
+        selectimg_but.state(['!disabled'])
     return
 
 def img_download_handl():
@@ -149,38 +157,35 @@ entry_selectdt.grid(row=0, column=1, padx=5, pady=5)
 
 img_cmbox = ttk.Combobox(bott_left_frm, state="readonly", values=apod_desktop.get_all_apod_titles())
 img_cmbox.grid(row=0, column=1, padx=5, pady=5, sticky="NSEW")
-<<<<<<< Updated upstream
+
 img_cmbox.set("Select an Image")
 img_cmbox.bind("<<ComboboxSelected>>", apod_handl)
 
 selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop", state=tk.DISABLED, command=desk_bg_set)
-=======
-img_cmbox.set("Image")
+
+
 
 #def select_nasa_image:
 
 img_cmbox.bind("<<ComboboxSelected>>")
 
-def set_desktop():
-    image = img_cmbox.get()
-    image_path = apod_api.get_nasa_image(image, images_dir)
+
 
 selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop")
->>>>>>> Stashed changes
+
 selectimg_but.grid(row=0, column=2, padx=5, pady=5, sticky="E")
 
 
 selectdt_lbl = ttk.Label(api_input, text="Select Date:")
 selectdt_lbl.grid(row=0, column=0, padx=5, pady=5)
 
-<<<<<<< Updated upstream
+
 entry_selectdt = DateEntry(api_input, date_pattern="YYYY-MM-DD", state="readonly", mindate=date.fromisoformat("1996-05-16"), maxdate=date.today())
 entry_selectdt.grid(row=0, column=1, padx=5, pady=5)
 
 downloadimg_but = ttk.Button(api_input, text="Download Image", command=img_download_handl)
-=======
-downloadimg_but = ttk.Button(api_input, text="Download Image")
->>>>>>> Stashed changes
+
+
 downloadimg_but.grid(row=0, column=2, padx=5, pady=5)
 
 
