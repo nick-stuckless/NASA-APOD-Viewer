@@ -23,12 +23,14 @@ import inspect
 import os
 import apod_desktop
 import image_lib
+import apod_api
 import ctypes
 from datetime import date
 
 # Determine the path and parent directory of this script
 script_path = os.path.abspath(inspect.getframeinfo(inspect.currentframe()).filename)
 script_dir = os.path.dirname(script_path)
+images_dir = os.path.join(script_dir, 'apod_cache')
 
 # Initialize the image cache
 apod_desktop.init_apod_cache(script_dir)
@@ -101,7 +103,6 @@ root.bind("<Configure>", resize)
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID('ApodViewer')
 root.iconbitmap(os.path.join(script_dir, "NASA_Logo.ico"))
 
-
 # Frames
 top_frm = ttk.Frame(root)
 top_frm.grid(row=0, column=0, columnspan=3, padx=5, pady=5, sticky='N')
@@ -142,22 +143,44 @@ mid_labl.grid(padx=20, pady=0, sticky="NSEW")
 selectimg_lbl = ttk.Label(bott_left_frm, text="Select Image")
 selectimg_lbl.grid(row=0, column=0, padx=5, pady=5, sticky="NSEw")
 
+entry_selectdt = DateEntry(api_input, date_pattern="YYYY-MM-DD", state="readonly", mindate=date.fromisoformat("1996-05-16"), maxdate=date.today())
+entry_selectdt.grid(row=0, column=1, padx=5, pady=5)
+
+
 img_cmbox = ttk.Combobox(bott_left_frm, state="readonly", values=apod_desktop.get_all_apod_titles())
 img_cmbox.grid(row=0, column=1, padx=5, pady=5, sticky="NSEW")
+<<<<<<< Updated upstream
 img_cmbox.set("Select an Image")
 img_cmbox.bind("<<ComboboxSelected>>", apod_handl)
 
 selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop", state=tk.DISABLED, command=desk_bg_set)
+=======
+img_cmbox.set("Image")
+
+#def select_nasa_image:
+
+img_cmbox.bind("<<ComboboxSelected>>")
+
+def set_desktop():
+    image = img_cmbox.get()
+    image_path = apod_api.get_nasa_image(image, images_dir)
+
+selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop")
+>>>>>>> Stashed changes
 selectimg_but.grid(row=0, column=2, padx=5, pady=5, sticky="E")
 
 
 selectdt_lbl = ttk.Label(api_input, text="Select Date:")
 selectdt_lbl.grid(row=0, column=0, padx=5, pady=5)
 
+<<<<<<< Updated upstream
 entry_selectdt = DateEntry(api_input, date_pattern="YYYY-MM-DD", state="readonly", mindate=date.fromisoformat("1996-05-16"), maxdate=date.today())
 entry_selectdt.grid(row=0, column=1, padx=5, pady=5)
 
 downloadimg_but = ttk.Button(api_input, text="Download Image", command=img_download_handl)
+=======
+downloadimg_but = ttk.Button(api_input, text="Download Image")
+>>>>>>> Stashed changes
 downloadimg_but.grid(row=0, column=2, padx=5, pady=5)
 
 
