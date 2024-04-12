@@ -70,9 +70,7 @@ def apod_handl(event):
     final_img = ImageTk.PhotoImage(re_img)
     img_labl.configure(image=final_img)
     mid_labl.configure(text=info_select['explanation'], wraplength=middle_frm.winfo_width(), justify="left")
-
-
-   
+    selectimg_but.state(['!disabled'])
 
     return
 
@@ -86,10 +84,6 @@ def desk_bg_set():
     apod = apod_desktop.get_apod_info(apod_info)
     img_path = apod['file_path']
     image_lib.set_desktop_background_image(img_path)
-
-     # Button state changing
-    if selectimg_but.instate(['disabled']):
-        selectimg_but.state(['!disabled'])
     return
 
 def img_download_handl():
@@ -98,7 +92,6 @@ def img_download_handl():
     apod_desktop.add_apod_to_cache(entry_dt)
 
     img_cmbox.configure(values=apod_desktop.get_all_apod_titles())
-
     return
 
 
@@ -164,12 +157,9 @@ img_cmbox.grid(row=0, column=1, padx=5, pady=5, sticky="NSEW")
 img_cmbox.set("Select an Image")
 img_cmbox.bind("<<ComboboxSelected>>", apod_handl)
 
-selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop", state=tk.DISABLED, command=desk_bg_set)
-
-
-selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop")
-
+selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop", state='readonly', command=desk_bg_set)
 selectimg_but.grid(row=0, column=2, padx=5, pady=5, sticky="E")
+selectimg_but.state(['disabled'])
 
 
 selectdt_lbl = ttk.Label(api_input, text="Select Date:")
@@ -180,8 +170,6 @@ entry_selectdt = DateEntry(api_input, date_pattern="YYYY-MM-DD", state="readonly
 entry_selectdt.grid(row=0, column=1, padx=5, pady=5)
 
 downloadimg_but = ttk.Button(api_input, text="Download Image", command=img_download_handl)
-
-
 downloadimg_but.grid(row=0, column=2, padx=5, pady=5)
 
 
