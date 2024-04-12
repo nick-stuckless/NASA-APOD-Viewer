@@ -87,7 +87,7 @@ def desk_bg_set():
     img_path = apod['file_path']
     image_lib.set_desktop_background_image(img_path)
 
-     #button state changing
+     # Button state changing
     if selectimg_but.instate(['disabled']):
         selectimg_but.state(['!disabled'])
     return
@@ -103,7 +103,7 @@ def img_download_handl():
 
 
 
-# TODO: Create the GUI
+# Create the GUI
 root = Tk()
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)

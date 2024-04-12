@@ -69,7 +69,7 @@ def get_apod_date():
     Returns:
         date: APOD date
     """
-    # TODO: Complete function body
+    # Complete function body
     num_params = len(sys.argv) - 1
     if num_params >= 1:
         try:
@@ -115,18 +115,21 @@ def init_apod_cache(parent_dir):
     global image_cache_db
     # TODO: Determine the path of the image cache directory
     image_cache_dir = os.path.join(parent_dir, 'apod_cache')
-    print(f"Image Cache Directory: {image_cache_dir} ")
     # TODO: Create the image cache directory if it does not already exist
     if not os.path.exists(image_cache_dir):
+        print('Creating Image Cache Directory...', end=' ')
         os.makedirs(image_cache_dir)
+    print(f"Image Cache Directory: {image_cache_dir}")
+
         
 
     # TODO: Determine the path of image cache DB
     image_cache_db = os.path.join(image_cache_dir, 'apod_cache.db')
-    print(f"Image Cache Database: {image_cache_db}")
+   
 
     # TODO: Create the DB if it does not already exist
     if not os.path.exists(image_cache_db):
+        print('Creating Image Cache Database...', end=' ')
         con = sqlite3.connect(image_cache_db)
         cur = con.cursor()
         create_tbl_query = """
@@ -144,7 +147,7 @@ def init_apod_cache(parent_dir):
         cur.execute(create_tbl_query)
         con.commit()
         con.close
-        
+    print(f"Image Cache Database: {image_cache_db}")
 def add_apod_to_cache(apod_date):
     """Adds the APOD image from a specified date to the image cache.
      
@@ -160,27 +163,39 @@ def add_apod_to_cache(apod_date):
         cache successfully or if the APOD already exists in the cache. Zero, if unsuccessful.
     """
     print("APOD date:", apod_date.isoformat())
-    # TODO: Download the APOD information from the NASA API
+    # Download the APOD information from the NASA API
     apod_data = apod_api.get_apod_info(apod_date)
-
+    print('Fetching image url...', end=' ')
     
-    # TODO: Download the APOD image
+    # Download the APOD image
     image_url = apod_api.get_apod_image_url(apod_data)
+    print('Success!')
+    print(f'Image url: {image_url}')
     apod_image = image_lib.download_image(image_url)
    
-    # TODO: Check whether the APOD already exists in the image cache
+    # Check whether the APOD already exists in the image cache
     img_hash = hashlib.sha256(apod_image).hexdigest()
     get_apod_id_from_db(img_hash)
-    #todo check if image exists already
 
-    # TODO: Save the APOD file to the image cache directory
-    
     path = determine_apod_file_path(apod_data["title"], image_url)
-    image_lib.save_image_file(apod_image, path)
-    #image file path
-    # TODO: Add the APOD information to the DB
     img_path = os.path.join(image_cache_dir, path)
+
+    db_id_num = get_apod_id_from_db(img_hash)
+    if db_id_num != 0:
+        print('Apod exists in cache')
+        print(f'Apod location: {img_path}')
+        return db_id_num
+    
+    # Save the APOD file to the image cache directory
+    print('Saving image to Image Cache...', end=' ')
+    image_lib.save_image_file(apod_image, path)
+    print(f'Image saved: {img_path}')
+
+    # Add the APOD information to the DB
+
+    print('Adding Apod to Database...', end=' ')
     add_apod_to_db(apod_data["title"],apod_data["explanation"],img_path,img_hash)
+    print('Done')
     return 0
 
 def add_apod_to_db(title, explanation, file_path, sha256):
