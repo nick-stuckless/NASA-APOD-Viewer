@@ -167,13 +167,6 @@ img_cmbox.bind("<<ComboboxSelected>>", apod_handl)
 selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop", state=tk.DISABLED, command=desk_bg_set)
 
 
-
-#def select_nasa_image:
-
-img_cmbox.bind("<<ComboboxSelected>>")
-
-
-
 selectimg_but = ttk.Button(bott_left_frm, text="Set as Desktop")
 
 selectimg_but.grid(row=0, column=2, padx=5, pady=5, sticky="E")

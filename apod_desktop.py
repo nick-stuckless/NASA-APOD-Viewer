@@ -119,6 +119,7 @@ def init_apod_cache(parent_dir):
     if not os.path.exists(image_cache_dir):
         print('Creating Image Cache Directory...', end=' ')
         os.makedirs(image_cache_dir)
+        print('Success!')
     print(f"Image Cache Directory: {image_cache_dir}")
 
         
@@ -147,6 +148,7 @@ def init_apod_cache(parent_dir):
         cur.execute(create_tbl_query)
         con.commit()
         con.close
+        print('Success!')
     print(f"Image Cache Database: {image_cache_db}")
 def add_apod_to_cache(apod_date):
     """Adds the APOD image from a specified date to the image cache.
