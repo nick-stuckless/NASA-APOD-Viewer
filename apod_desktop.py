@@ -202,16 +202,19 @@ def add_apod_to_cache(apod_date):
    
     # Check whether the APOD already exists in the image cache
     
-   
-
-    path = determine_apod_file_path(apod_data["title"], image_url)
-    img_path = os.path.join(image_cache_dir, path)
 
     db_id_num = get_apod_id_from_db(img_hash)
     if db_id_num != 0:
-        print('Apod exists in cache')
-        print(f'Apod location: {img_path}')
+        print('APOD image is already in cache.')
         return db_id_num
+    print("APOD image is not already in cache.")
+
+
+    #Determine the APOD image file path
+    
+    path = determine_apod_file_path(apod_data["title"], image_url)
+    img_path = os.path.join(image_cache_dir, path)
+    print(f"APOD file path: {img_path}")
     
     # Save the APOD file to the image cache directory
     print('Saving image to Image Cache...', end=' ')
