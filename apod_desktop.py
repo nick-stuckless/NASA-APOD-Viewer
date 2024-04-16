@@ -134,8 +134,8 @@ def init_apod_cache(parent_dir):
    
 
     #Create the DB if it does not already exist
+    print("Image cache DB ...", end="")
     if not os.path.exists(image_cache_db):
-        print('Creating Image Cache Database...', end=' ')
         con = sqlite3.connect(image_cache_db)
         cur = con.cursor()
         create_tbl_query = """
@@ -153,8 +153,11 @@ def init_apod_cache(parent_dir):
         cur.execute(create_tbl_query)
         con.commit()
         con.close
-        print('Success!')
-    print(f"Image Cache Database: {image_cache_db}")
+        print('created.')
+    else:
+        print("already exists.")
+    
+
 def add_apod_to_cache(apod_date):
     """Adds the APOD image from a specified date to the image cache.
      
@@ -170,19 +173,36 @@ def add_apod_to_cache(apod_date):
         cache successfully or if the APOD already exists in the cache. Zero, if unsuccessful.
     """
     print("APOD date:", apod_date.isoformat())
+
     # Download the APOD information from the NASA API
+    print(f'Getting {apod_date} APOD information from NASA...', end='')
     apod_data = apod_api.get_apod_info(apod_date)
-    print('Fetching image url...', end=' ')
+    print('success')
+
+    print(f'APOD title: {apod_data['title']}')
     
-    # Download the APOD image
+    # Determine the APOD image url
     image_url = apod_api.get_apod_image_url(apod_data)
-    print('Success!')
-    print(f'Image url: {image_url}')
+    if image_url == "":
+        print("APOD doesn't has image URL.")
+        return 0
+    
+    print(f'APOD URL: {image_url}')
+
+    #Download the APOD image
+    print(f'Downloading image from {image_url}.....', end="")
     apod_image = image_lib.download_image(image_url)
+    print('success')
+    if apod_image is None:
+        print('failure')
+    
+    #Get the SHA-256 hash of the downloaded APOD image
+    img_hash = hashlib.sha256(apod_image).hexdigest()
+    print(f"APOD SHA-256: {img_hash}")
    
     # Check whether the APOD already exists in the image cache
-    img_hash = hashlib.sha256(apod_image).hexdigest()
-    get_apod_id_from_db(img_hash)
+    
+   
 
     path = determine_apod_file_path(apod_data["title"], image_url)
     img_path = os.path.join(image_cache_dir, path)
