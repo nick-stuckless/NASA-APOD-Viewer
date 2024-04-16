@@ -24,17 +24,14 @@ _  \\___/  ______  \___//  _   <--- He will pinch you if
               \________/
 '''
 import requests
-import os
-import apod_api
-import subprocess
 import ctypes
 
 def main():
     # TODO: Add code to test the functions in this module
-    #image_url = 'https://apod.nasa.gov/apod/image/0001/flammarion_halfcolor.gif'
-    #image = download_image(image_url)
-    #image_path = "C:/Temp/test.gif"
-    #save_image_file(image, image_path)
+      
+    image = download_image('https://apod.nasa.gov/apod/image/0001/flammarion_halfcolor.gif')
+    image_path = "C:/Temp/test.gif"
+    save_image_file(image, image_path)
 
     return
 

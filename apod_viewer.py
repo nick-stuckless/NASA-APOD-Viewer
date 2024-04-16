@@ -16,7 +16,7 @@
     \_________/
     Final project complete, let the beers flow!
  """
-from tkinter import Tk, ttk, messagebox, PhotoImage
+from tkinter import Tk, ttk, PhotoImage
 import tkinter as tk
 from PIL import ImageTk, Image
 from tkcalendar import DateEntry
