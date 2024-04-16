@@ -217,15 +217,21 @@ def add_apod_to_cache(apod_date):
     print(f"APOD file path: {img_path}")
     
     # Save the APOD file to the image cache directory
-    print('Saving image to Image Cache...', end=' ')
-    image_lib.save_image_file(apod_image, path)
-    print(f'Image saved: {img_path}')
+    print(f'Saving image file as {img_path} ...', end="")
+    if not image_lib.save_image_file(apod_image, path):
+        print("unsuccessful")
+        return 0
+    print("success")
+    
 
     # Add the APOD information to the DB
 
-    print('Adding Apod to Database...', end=' ')
-    add_apod_to_db(apod_data["title"],apod_data["explanation"],img_path,img_hash)
-    print('Done')
+    print('Adding APOD to image cache DB...', end="")
+    if not add_apod_to_db(apod_data["title"],apod_data["explanation"],img_path,img_hash):
+        print("failure")
+        return 0
+    print('success')
+    
     return 0
 
 def add_apod_to_db(title, explanation, file_path, sha256):
