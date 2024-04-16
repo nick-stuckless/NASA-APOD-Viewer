@@ -121,11 +121,11 @@ def init_apod_cache(parent_dir):
 
     #Create the image cache directory if it does not already exist
     if not os.path.exists(image_cache_dir):
-        print('Image Cache Directory...', end=' ')
+        print('Image Cache Directory...', end="")
         os.makedirs(image_cache_dir)
         print('Created.')
     else:
-        print("already exists.")
+        print("Image Cache Directory already exists.")
     
         
     #Determine the path of image cache DB
@@ -134,7 +134,7 @@ def init_apod_cache(parent_dir):
    
 
     #Create the DB if it does not already exist
-    print("Image cache DB ...", end="")
+    print("Image cache DB ", end="")
     if not os.path.exists(image_cache_db):
         con = sqlite3.connect(image_cache_db)
         cur = con.cursor()
@@ -177,7 +177,7 @@ def add_apod_to_cache(apod_date):
     # Download the APOD information from the NASA API
     print(f'Getting {apod_date} APOD information from NASA...', end='')
     apod_data = apod_api.get_apod_info(apod_date)
-    print('success')
+    
 
     print(f'APOD title: {apod_data['title']}')
     
@@ -190,11 +190,9 @@ def add_apod_to_cache(apod_date):
     print(f'APOD URL: {image_url}')
 
     #Download the APOD image
-    print(f'Downloading image from {image_url}.....', end="")
     apod_image = image_lib.download_image(image_url)
-    print('success')
-    if apod_image is None:
-        print('failure')
+    
+    
     
     #Get the SHA-256 hash of the downloaded APOD image
     img_hash = hashlib.sha256(apod_image).hexdigest()
@@ -217,11 +215,11 @@ def add_apod_to_cache(apod_date):
     print(f"APOD file path: {img_path}")
     
     # Save the APOD file to the image cache directory
-    print(f'Saving image file as {img_path} ...', end="")
+    
     if not image_lib.save_image_file(apod_image, path):
         print("unsuccessful")
         return 0
-    print("success")
+    
     
 
     # Add the APOD information to the DB

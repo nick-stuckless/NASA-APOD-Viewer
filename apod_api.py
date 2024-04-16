@@ -53,7 +53,7 @@ def get_apod_info(apod_date):
     resp = requests.get(nasa_url, parameters)
     
     if resp.status_code == requests.codes.ok:
-        print("Success!")
+        print("success")
         apod_info_dict = resp.json()
         return apod_info_dict
     else:

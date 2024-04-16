@@ -54,7 +54,7 @@ def download_image(image_url):
     print(f'Downloading image from {url}...', end=' ')
     if resp.status_code == requests.codes.ok:
         file_content = resp.content
-        print('Success!')
+        print('success')
     else:
         print('Failure')
         print(f'Response code: {resp.status_code} ({resp.reason})')     
@@ -76,7 +76,7 @@ def save_image_file(image_data, image_path):
         print(f"Saving image file as {image_path}...", end=' ')
         with open(image_path, 'wb') as file:
             file.write(image_data)
-        print("Success!")
+        print("Success")
         return True
     except:
         print("Failure")
@@ -95,7 +95,7 @@ def set_desktop_background_image(image_path):
     SPI_SETDESKWALLPAPER = 20
     try:
         if ctypes.windll.user32.SystemParametersInfoW(SPI_SETDESKWALLPAPER, 0, image_path, 3):
-            print("Success!")
+            print("Success")
             return True
         else:
             print("failure")
