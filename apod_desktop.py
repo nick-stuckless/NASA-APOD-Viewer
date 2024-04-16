@@ -113,22 +113,27 @@ def init_apod_cache(parent_dir):
     """
     global image_cache_dir
     global image_cache_db
-    # TODO: Determine the path of the image cache directory
+
+    #Determine the path of the image cache directory
     image_cache_dir = os.path.join(parent_dir, 'apod_cache')
-    # TODO: Create the image cache directory if it does not already exist
-    if not os.path.exists(image_cache_dir):
-        print('Creating Image Cache Directory...', end=' ')
-        os.makedirs(image_cache_dir)
-        print('Success!')
     print(f"Image Cache Directory: {image_cache_dir}")
 
-        
 
-    # TODO: Determine the path of image cache DB
+    #Create the image cache directory if it does not already exist
+    if not os.path.exists(image_cache_dir):
+        print('Image Cache Directory...', end=' ')
+        os.makedirs(image_cache_dir)
+        print('Created.')
+    else:
+        print("already exists.")
+    
+        
+    #Determine the path of image cache DB
     image_cache_db = os.path.join(image_cache_dir, 'apod_cache.db')
+    print(f'Image cache DB: {image_cache_db}')
    
 
-    # TODO: Create the DB if it does not already exist
+    #Create the DB if it does not already exist
     if not os.path.exists(image_cache_db):
         print('Creating Image Cache Database...', end=' ')
         con = sqlite3.connect(image_cache_db)
